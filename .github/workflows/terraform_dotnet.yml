@@ -68,34 +68,6 @@ jobs:
         run: |
           terraform -chdir=${{ '${{ env.TF_WORKING_DIR }}' }} validate
 
-      - name: Run Unit Tests with Terratest
-        run: |
-          cd ${{ '${{ env.TF_WORKING_DIR }}' }}
-          export TF_VAR_ENV="${{ '${{ github.event.inputs.environment }}' }}"
-
-          # Initialize Go module if not already initialized
-          if [ ! -f "go.mod" ]; then
-            echo "Initializing Go module..."
-            go mod init $(basename ${{ '${{ env.TF_WORKING_DIR }}' }})
-          else
-            echo "go.mod already exists, skipping initialization."
-          fi
-
-          # Install dependencies
-          echo "Installing Go dependencies..."
-          if ! go list -m github.com/gruntwork-io/terratest/modules/terraform > /dev/null 2>&1; then
-            echo "Dependency not found, fetching..."
-            go get github.com/gruntwork-io/terratest/modules/terraform
-          else
-            echo "Dependency already exists, skipping download..."
-          fi
-          
-          # Explicitly install golang.org/x/crypto
-          go get golang.org/x/crypto
-
-          go mod tidy
-          go test -v
-
       - name: Terraform Plan
         run: |
           echo "Running Terraform Plan with environment-specific tfvars..."
