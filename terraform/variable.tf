@@ -9,7 +9,7 @@ variable "resource_group_name" {
 variable "location" {
   description = "The Azure region where resources will be created"
   type        = string
-  default     = "West US 2"
+  default     = "eastus2"
 }
 
 variable "app_service_plan_name" {
