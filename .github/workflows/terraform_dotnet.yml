@@ -75,14 +75,14 @@ jobs:
         run: |
           echo "Running Terraform Plan with environment-specific tfvars..."
           ENV_TFVARS="terraform/environments/${{ '${{ github.event.inputs.environment }}' }}/terraform.tfvars"
-          terraform -chdir=${{ '${{ env.TF_WORKING_DIR }}' }} plan -out=tfplan -var-file=${{ '${{ github.workspace }}' }}/${ENV_TFVARS}
+          terraform -chdir=${{ '${{ env.TF_WORKING_DIR }}' }} plan -var "client_secret=${{ '${{ secrets.AZURE_CLIENT_SECRET }}' }}" -out=tfplan -var-file=${{ '${{ github.workspace }}' }}/${ENV_TFVARS}
 
       - name: Terraform Apply
         run: |
           echo "Applying Terraform Plan..."
           ENV_TFVARS="terraform/environments/${{ '${{ github.event.inputs.environment }}' }}/terraform.tfvars"
           # Apply with correct path to tfvars file
-          terraform -chdir=${{ '${{ env.TF_WORKING_DIR }}' }} apply -auto-approve -var-file=${{ '${{ github.workspace }}' }}/${ENV_TFVARS}
+          terraform -chdir=${{ '${{ env.TF_WORKING_DIR }}' }} apply -auto-approve -var-file=${{ '${{ github.workspace }}' }}/${ENV_TFVARS} -var "client_secret=${{ '${{ secrets.AZURE_CLIENT_SECRET }}' }}"
 
       - name: Remove terraform.lock.hcl
         run: |
