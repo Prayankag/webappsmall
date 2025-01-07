@@ -21,11 +21,21 @@ provider "azurerm" {
   tenant_id      = var.tenant_id
 }
 
-
 # Define the resource group
 data "azurerm_resource_group" "example" {
   name     = var.resource_group_name
  }
+# Fetch the Azure Key Vault by its name (manual creation of Key Vault)
+data "azurerm_key_vault" "example" {
+  name                = var.key_vault_name  # Name of the manually created Key Vault
+  resource_group_name = var.resource_group_name
+}
+
+# Fetch the secret from Azure Key Vault
+data "azurerm_key_vault_secret" "example" {
+  name         = var.client_secret  # Name of the secret stored in the Key Vault
+  key_vault_id = data.azurerm_key_vault.example.id
+}
 
 # Define the Service Plan
 resource "azurerm_service_plan" "example" {
@@ -39,7 +49,7 @@ resource "azurerm_service_plan" "example" {
 }
 
 resource "random_string" "unique" {
-  length  = 8
+  length  = 3
   special = false
   upper   = false
 }
@@ -47,12 +57,12 @@ resource "random_string" "unique" {
 
 # Define the Web App
 resource "azurerm_app_service" "example" {
-  name                = "${var.web_app_name}-${random_string.unique.result}"
+  name                = "${var.appname}-${random_string.unique.result}"
   location            = data.azurerm_resource_group.example.location
   resource_group_name = data.azurerm_resource_group.example.name
   app_service_plan_id = azurerm_service_plan.example.id
 
   app_settings = {
-    "WEBSITE_NODE_DEFAULT_VERSION" = "14"
+    "clientsecret" = data.azurerm_key_vault_secret.example.value
   }
 }
