@@ -106,15 +106,15 @@ jobs:
 
       - name: Restore dependencies
         run: |
-          dotnet restore calculator/*.csproj
+          dotnet restore hello-world-api/*.csproj
 
       - name: Build the .NET project
         run: |
-          dotnet build calculator/*.csproj --configuration Release
+          dotnet build hello-world-api/*.csproj --configuration Release
 
       - name: Run unit tests
         run: |
-          dotnet test calculator/*.csproj --configuration Release
+          dotnet test hello-world-api/*.csproj --configuration Release
 
       - name: Prepare SonarQube Analysis
         run: |
@@ -128,7 +128,7 @@ jobs:
 
       - name: Publish the .NET project directly to wwwroot
         run: |
-          dotnet publish calculator/*.csproj --configuration Release --output ./wwwroot
+          dotnet publish hello-world-api/*.csproj --configuration Release --output ./wwwroot
 
       - name: Create Artifact for Deployment
         run: |
