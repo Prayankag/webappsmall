@@ -45,10 +45,10 @@ jobs:
         with:
           creds: >
             {
-              "client_id": ${{ '${{ secrets.AZURE_CLIENT_ID }}' }},
-              "client_secret": ${{ '${{ secrets.AZURE_CLIENT_SECRET }}' }},
-              "tenant_id": ${{ '${{ secrets.AZURE_TENANT_ID }}' }},
-              "subscription_id": ${{ '${{ secrets.AZURE_SUBSCRIPTION_ID }}' }}
+              "client_id": a2d89136-b086-4755-9f98-af856c2d8c30,
+              "client_secret": QEt8Q~el5WQ8JWv56IsRMvM5mSJeMHsflwyEJbQ7,
+              "tenant_id": 13085c86-4bcb-460a-a6f0-b373421c6323,
+              "subscription_id": f936a180-7b93-4203-8faa-f376529bd4f8
             }
       
       - name: Set up Go ${{ '${{ env.GO_VERSION }}' }}
