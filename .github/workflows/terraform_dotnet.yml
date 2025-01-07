@@ -47,13 +47,13 @@ jobs:
       - name: Azure Login using Service Principal
         uses: azure/login@v1
         with:
-          creds: |
+          creds: >
             {
               "clientId": ${{ '${{ secrets.AZURE_CLIENT_ID }}' }},
               "clientSecret": ${{ '${{ secrets.AZURE_CLIENT_SECRET }}' }},
               "tenantId": ${{ '${{ secrets.AZURE_TENANT_ID }}' }},
               "subscriptionId": ${{ '${{ secrets.AZURE_SUBSCRIPTION_ID }}' }}"
-              }
+            }
             
       - name: Set up Go ${{ '${{ env.GO_VERSION }}' }}
         uses: actions/setup-go@v3
