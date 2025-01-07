@@ -21,7 +21,7 @@ variable "app_service_plan_name" {
 variable "appname" {
   description = "The name of the Web App"
   type        = string
-  default     = "java-springboot-jpa-docker-azure"
+  default     = "backstagedev"
 }
 
 variable "sku_size" {
