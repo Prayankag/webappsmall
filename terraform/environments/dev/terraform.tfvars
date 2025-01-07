@@ -1,5 +1,5 @@
-resource_group_name = "vam-rg1"
-location            = "West US 2"
+resource_group_name = "Geicoautomationscript"
+location            = "East US"
 app_service_plan_name = "stag-plan"
-sku_size            = "B1"
+sku_size            = "F1"
 os_type             = "Windows"
