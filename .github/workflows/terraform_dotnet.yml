@@ -44,12 +44,16 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-      - name: Azure CLI Login using Service Principal
-        run: |
-          az login --service-principal \
-            --username ${{ '${{ secrets.AZURE_CLIENT_ID }}' }}\
-            --password ${{ '${{ secrets.AZURE_CLIENT_SECRET }}' }} \
-            --tenant ${{ '${{ secrets.AZURE_TENANT_ID }}' }}
+      - name: Azure Login using Service Principal
+        uses: azure/login@v1
+        with:
+          creds: |
+            {
+              "clientId": ${{ '${{ secrets.AZURE_CLIENT_ID }}' }},
+              "clientSecret": ${{ '${{ secrets.AZURE_CLIENT_SECRET }}' }},
+              "tenantId": ${{ '${{ secrets.AZURE_TENANT_ID }}' }},
+              "subscriptionId": ${{ '${{ secrets.AZURE_SUBSCRIPTION_ID }}' }}"
+              }
             
       - name: Set up Go ${{ '${{ env.GO_VERSION }}' }}
         uses: actions/setup-go@v3
