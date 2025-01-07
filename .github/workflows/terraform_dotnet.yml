@@ -40,16 +40,17 @@ jobs:
           echo "Listing the contents of the working directory..."
           ls -al $GITHUB_WORKSPACE
 
-      - name: Setup Azure Login using Service Principal
-        uses: azure/login@v1
-        with:
-          creds: >
-            {
-              "client_id": ${{ secrets.AZURE_CLIENT_ID }},
-              "client_secret": ${{ secrets.AZURE_CLIENT_SECRET }},
-              "tenant_id": ${{ secrets.AZURE_TENANT_ID }},
-              "subscription_id": ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-            }
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Azure CLI Login using Service Principal
+        run: |
+          az login --service-principal \
+            --username "${{ secrets.AZURE_CLIENT_ID }}" \
+            --password "${{ secrets.AZURE_CLIENT_SECRET }}" \
+            --tenant "${{ secrets.AZURE_TENANT_ID }}"
+            
       - name: Set up Go ${{ '${{ env.GO_VERSION }}' }}
         uses: actions/setup-go@v3
         with:
