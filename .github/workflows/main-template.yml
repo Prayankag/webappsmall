@@ -42,6 +42,7 @@ jobs:
           gh workflow run terraform_deploy.yaml \
             -f resourcetype="${{ github.event.inputs.resourcetype }}" \
             -f environment="${{ github.event.inputs.environment }}"
+            -f appname="${{ github.event.inputs.appname }}"
 
       - name: Check and Trigger Dotnet Deployment
         if: ${{ github.event.inputs.webappdeployment == 'true' }}
