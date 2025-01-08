@@ -1,19 +1,19 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: demowebappinstance
-  description: demowebappinstance
+  name: ${{ values.name }}
+  description: ${{ values.description }}
 spec:
-  owner: group:default/prayankag
+  owner: ${{ values.owner }}
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: demowebappinstance
-  description: demowebappinstance
+  name: ${{ values.name }}
+  description: ${{ values.description }}
   annotations:
      backstage.io/techdocs-ref: dir:./docs
-     github.com/project-slug: prayankag/demowebinstance
+     github.com/project-slug: ${{ values.repo_owner }}/${{ values.repo_name }}
      github-actions: enabled
      github.com/workflows: |
       [
@@ -25,20 +25,20 @@ metadata:
       ]
 spec:
   type: service
-  owner: group:default/prayankag
+  owner: ${{ values.owner }}
   lifecycle: experimental
-  system: demowebappinstance
+  system: ${{ values.name }}
   providesApis:
-    - demowebappinstance
+    - ${{ values.name }}
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: demowebappinstance
-  description: demowebappinstance
+  name: ${{ values.name }}
+  description: ${{ values.description }}
 spec:
   type: internal
   lifecycle: experimental
-  owner: group:default/prayankag
-  system: demowebappinstance
-  definition: "demowebappinstance"
+  owner: ${{ values.owner }}
+  system: ${{ values.name }}
+  definition: "${{ values.description }}"

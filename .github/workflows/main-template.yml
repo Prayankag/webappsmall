@@ -1,0 +1,52 @@
+name: Terraform and Dotnet Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+  workflow_dispatch:
+    inputs:
+      resourcetype:
+        description: 'resourcetype to deploy (e.g., VM , Webapp)'
+        required: true
+        type: string
+      environment:
+        description: 'Environment to deploy (e.g., dev, prod)'
+        required: true
+        type: string
+      appname:
+        description: 'The Azure Web App name for deployment'
+        required: true
+        type: string
+      infraprovision:
+        description: 'Only perform an infrastructure provision'
+        required: true
+        type: boolean
+      webappdeployment:
+        description: 'Only perform a webapp deployment'
+        required: true
+        type: boolean
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  check-and-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check and Trigger Terraform Deployment
+        if: ${{ github.event.inputs.infraprovision == 'true' }}
+        run: |
+          echo "Triggering Terraform Deployment Workflow..."
+          gh workflow run terraform_deploy.yaml \
+            -f resourcetype="${{ github.event.inputs.resourcetype }}" \
+            -f environment="${{ github.event.inputs.environment }}"
+
+      - name: Check and Trigger Dotnet Deployment
+        if: ${{ github.event.inputs.webappdeployment == 'true' }}
+        run: |
+          echo "Triggering Dotnet Deployment Workflow..."
+          gh workflow run dotnet-deploy.yaml \
+            -f appname="${{ github.event.inputs.appname }}" \
+            -f environment="${{ github.event.inputs.environment }}"
