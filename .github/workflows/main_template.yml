@@ -71,7 +71,7 @@ jobs:
   
   check-and-trigger-dotnet:
     runs-on: ubuntu-latest
-    needs: check-and-trigger-terraform  # Ensure this runs after Terraform Deployment
+    needs: check-and-trigger-terraform
     steps:
       - name: Check and Trigger Dotnet Deployment
         id: dotnet-deploy
@@ -101,7 +101,7 @@ jobs:
       - name: Check and Trigger Dotnet Deployment only
         id: dotnet-deploy2
         
-        if: ${{ '${{ github.event.inputs.infraprovision}}' != 'true' }} && ${{ '${{ github.event.inputs.webappdeployment}}' }}
+        if: (! ${{ '${{ github.event.inputs.infraprovision}}' }} && ${{ '${{ github.event.inputs.webappdeployment}}' }} )
          
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
