@@ -71,7 +71,7 @@ jobs:
       - name: Check and Trigger Dotnet Deployment
         id: dotnet-deploy
         if: ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}
-        needs: terraform-deploy
+        
         env:
           GT_TOKEN: ${{ '${{ secrets.GT_TOKEN }}' }}
         run: |
