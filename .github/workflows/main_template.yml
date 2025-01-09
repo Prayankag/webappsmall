@@ -49,20 +49,40 @@ jobs:
       - name: Check and Trigger Terraform Deployment
         if: ${{ '${{ github.event.inputs.infraprovision }}' }}
         env:
-          GH_TOKEN: "${{ '${{ secrets.GH_TOKEN }}' }}"
+          GT_TOKEN: ${{ '${{ secrets.GT_TOKEN }}' }}
         run: |
-          echo "Triggering Terraform Deployment Workflow..."
-          gh workflow run terraform_deploy.yaml \
-            -f resourcetype="${{ '${{ github.event.inputs.resourcetype }}' }}" \
-            -f environment="${{ '${{ github.event.inputs.environment }}' }}" \
-            -f appname="${{ '${{ github.event.inputs.appname }}' }}"
+          echo "Triggering Terraform Deployment Workflow using REST API..."
 
-      - name: Check and Trigger Dotnet Deployment
+          # Trigger the workflow via GitHub API
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GT_TOKEN" \
+            https://api.github.com/repos/${{ '${{ github.repository }}' }}/actions/workflows/terraform_deploy.yml/dispatches \
+            -d '{
+              "ref": "main",
+              "inputs": {
+                "resourcetype": "${{ '${{ github.event.inputs.resourcetype }}' }}",
+                "environment": "${{ '${{ github.event.inputs.environment }}' }}",
+                "appname": "${{ '${{ github.event.inputs.appname }}' }}"
+              } 
+            }'
+
+      - name: Check and Trigger Terraform Deployment
         if: ${{ '${{ github.event.inputs.webappdeployment }}' }}
         env:
-          GH_TOKEN: "${{ '${{ secrets.GH_TOKEN }}' }}"
+          GT_TOKEN: ${{ '${{ secrets.GT_TOKEN }}' }}
         run: |
-          echo "Triggering Dotnet Deployment Workflow..."
-          gh workflow run dotnet_deploy.yaml \
-            -f appname="${{ '${{ github.event.inputs.appname }}' }}" \
-            -f environment="${{ '${{ github.event.inputs.environment }}' }}"
+          echo "Triggering dotnet Deployment Workflow using REST API..."
+
+          # Trigger the workflow via GitHub API
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GT_TOKEN" \
+            https://api.github.com/repos/${{ '${{ github.repository }}' }}/actions/workflows/dotnet_deploy.yml/dispatches \
+            -d '{
+              "ref": "main",
+              "inputs": {
+                "environment": "${{ '${{ github.event.inputs.environment }}' }}",
+                "appname": "${{ '${{ github.event.inputs.appname }}' }}"
+              }
+            }'
