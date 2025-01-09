@@ -25,7 +25,7 @@ metadata:
       ]
 spec:
   type: service
-  owner: group:default/guests
+  owner: ${{ values.owner }}
   lifecycle: experimental
   system: ${{ values.name }}
   providesApis:
@@ -39,6 +39,6 @@ metadata:
 spec:
   type: internal
   lifecycle: experimental
-  owner: group:default/guests
+  owner: ${{ values.owner }}
   system: ${{ values.name }}
   definition: "${{ values.description }}"
