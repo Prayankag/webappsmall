@@ -4,7 +4,7 @@ metadata:
   name: ${{ values.name }}
   description: ${{ values.description }}
 spec:
-  owner: ${{ values.owner }}
+  owner: prayankag
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -25,8 +25,20 @@ metadata:
       ]
 spec:
   type: service
-  owner: ${{ values.owner }}
+  owner: prayankag
   lifecycle: experimental
   system: ${{ values.name }}
   providesApis:
     - ${{ values.name }}
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{ values.name }}
+  description: ${{ values.description }}
+spec:
+  type: internal
+  lifecycle: experimental
+  owner: prayankag
+  system: ${{ values.name }}
+  definition: "${{ values.description }}"
