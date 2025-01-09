@@ -42,12 +42,12 @@ jobs:
           echo "Environment: ${{ '${{ github.event.inputs.environment }}' }}"
           echo "App Name: ${{ '${{ github.event.inputs.appname }}' }}"
           echo "Infra Provision: ${{ '${{ github.event.inputs.infraprovision }}' }}"
-          echo "Web App Deployment: ${{ '${{ github.event.inputs.webappdeployment }}' }}
+          echo "Web App Deployment: ${{ '${{ github.event.inputs.webappdeployment }}' }}"
   check-and-trigger:
     runs-on: ubuntu-latest
     steps:
       - name: Check and Trigger Terraform Deployment
-        if: ${{ '${{ github.event.inputs.infraprovision}}' == true }}
+        if: ${{ '${{ github.event.inputs.infraprovision}}' == 'true' }}
         run: |
           echo "Triggering Terraform Deployment Workflow..."
           gh workflow run terraform_deploy.yaml \
@@ -56,7 +56,7 @@ jobs:
             -f appname="${{ '${{ github.event.inputs.appname }}' }}"
 
       - name: Check and Trigger Dotnet Deployment
-        if: ${{ '${{ github.event.inputs.webappdeployment }}' == true  }}
+        if: ${{ '${{ github.event.inputs.webappdeployment }}' == 'true'  }}
         run: |
           echo "Triggering Dotnet Deployment Workflow..."
           gh workflow run dotnet-deploy.yaml \
