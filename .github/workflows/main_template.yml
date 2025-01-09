@@ -46,16 +46,10 @@ jobs:
   check-and-trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-        env:
-          GH_TOKEN: "${{ '${{ secrets.API_TOKEN }}' }}"
-        run: |
-          echo "GH_TOKEN set for GitHub CLI."
       - name: Check and Trigger Terraform Deployment
         if: ${{ '${{ github.event.inputs.infraprovision }}' }}
         env:
-          GH_TOKEN: "${{ '${{ secrets.API_TOKEN }}' }}"
+          API_TOKEN: "${{ '${{ secrets.API_TOKEN }}' }}"
         run: |
           echo "Triggering Terraform Deployment Workflow..."
           gh workflow run terraform_deploy.yaml \
@@ -66,7 +60,7 @@ jobs:
       - name: Check and Trigger Dotnet Deployment
         if: ${{ '${{ github.event.inputs.webappdeployment }}' }}
         env:
-          GH_TOKEN: "${{ '${{ secrets.API_TOKEN }}' }}"
+          API_TOKEN: "${{ '${{ secrets.API_TOKEN }}' }}"
         run: |
           echo "Triggering Dotnet Deployment Workflow..."
           gh workflow run dotnet_deploy.yaml \
