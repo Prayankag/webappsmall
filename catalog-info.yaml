@@ -18,7 +18,7 @@ metadata:
      github.com/workflows: |
       [
         {
-          "workflow": "instance.yaml",
+          "workflow": "main_template.yml",
           "label": "Start",
           "tooltip": "click here and start the workflow process"
         }
