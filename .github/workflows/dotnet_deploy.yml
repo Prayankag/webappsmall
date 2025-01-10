@@ -74,7 +74,7 @@ jobs:
         sleep 10
 
     - name: Publish app for deploy
-      run: dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      run: dotnet publish --configuration Release --no-build --output ./publish /p:Platform=x64
 
     - name: Publish Artifacts
       uses: actions/upload-artifact@v4
