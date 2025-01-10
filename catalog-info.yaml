@@ -13,16 +13,7 @@ metadata:
   description: ${{ values.description }}
   annotations:
      backstage.io/techdocs-ref: dir:./docs
-     github.com/project-slug: ${{ values.repo_owner }}/${{ values.repo_name }}
-     github-actions: enabled
-     github.com/workflows: |
-      [
-        {
-          "workflow": "main_template.yml",
-          "label": "Start",
-          "tooltip": "click here and start the workflow process"
-        }
-      ]
+     github.com/project-slug: ${{ values.repo_owner }}/${{ values.repo_name }}     
 spec:
   type: service
   owner: group:default/guests
