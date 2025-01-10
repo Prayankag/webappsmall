@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Check and Trigger Terraform Deployment
         id: terraform-deploy
-        if: ${{ '${{ github.event.inputs.infraprovision }}' == 'true' }}
+        if: ${{ '${{ github.event.inputs.infraprovision }}' }}
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
@@ -75,7 +75,7 @@ jobs:
     steps:
       - name: Check and Trigger Dotnet Deployment
         id: dotnet-deploy
-        if: ${{ '${{ github.event.inputs.infraprovision }}' == 'true' }} && ${{ '${{ github.event.inputs.webappdeployment }}' == 'true' }}
+        if: ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}
         
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
@@ -101,7 +101,7 @@ jobs:
       - name: Check and Trigger Dotnet Deployment only
         id: dotnet-only
         
-        if: ${{ '${{ github.event.inputs.webappdeployment }}' == 'true' }} && ${{ '${{ github.event.inputs.infraprovision }}' != 'true' }}
+        if: ${{ '${{ github.event.inputs.webappdeployment }}' }} && ${{ '${{ github.event.inputs.infraprovision }}' != 'true' }}
          
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
