@@ -46,7 +46,7 @@ jobs:
   check-and-trigger-terraform:
     runs-on: ubuntu-latest
     needs: display-input-values    
-    if: ${{ github.event.inputs.infraprovision == 'true'}}
+    if: ${{ '${{ github.event.inputs.infraprovision == true}}' }}
     steps:
       - name: Check and Trigger Terraform Deployment
         id: terraform-deploy
@@ -72,7 +72,7 @@ jobs:
   check-and-trigger-dotnet:
     runs-on: ubuntu-latest
     needs: check-and-trigger-terraform    
-    if: ${{ github.event.inputs.infraprovision }} && '${{ github.event.inputs.webappdeployment }}
+    if: ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}
     steps:
       - name: Check and Trigger Dotnet Deployment
         id: dotnet-deploy
@@ -96,7 +96,7 @@ jobs:
   check-and-trigger-dotnet-only:
     runs-on: ubuntu-latest
     needs: display-input-values    
-    if: ${{ github.event.inputs.infraprovision == 'false' }}
+    if: ${{ '${{ github.event.inputs.infraprovision == false }}' }}
     steps:    
       - name: Check and Trigger Dotnet Deployment only
         id: dotnet-only         
