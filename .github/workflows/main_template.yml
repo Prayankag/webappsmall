@@ -98,19 +98,19 @@ jobs:
           INFRA: ${{ '${{ github.event.inputs.infraprovision }}' }}
           WEBAPP: ${{ '${{ github.event.inputs.webappdeployment }}' }}
         run: |
-          if [ "$INFRA" = "true" &&  "WEBAPP" = "true"]; then                  
-          echo "Triggering dotnet Deployment Workflow using REST API..."
+          if [ "$INFRA" = "true" ] && [ "$WEBAPP" = "true" ]; then                  
+            echo "Triggering dotnet Deployment Workflow using REST API..."
 
-          # Trigger the workflow via GitHub API
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GIT_PAT" \
-            https://api.github.com/repos/${{ '${{ github.repository }}' }}/actions/workflows/dotnet_deploy.yml/dispatches \
-            -d '{
-              "ref": "main",
-              "inputs": {
-                "environment": "${{ '${{ github.event.inputs.environment }}' }}",
-                "appname": "${{ '${{ github.event.inputs.appname }}' }}"
-              }
-            }'
+            # Trigger the workflow via GitHub API
+            curl -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GIT_PAT" \
+              https://api.github.com/repos/${{ '${{ github.repository }}' }}/actions/workflows/dotnet_deploy.yml/dispatches \
+              -d '{
+                "ref": "main",
+                "inputs": {
+                  "environment": "${{ '${{ github.event.inputs.environment }}' }}",
+                  "appname": "${{ '${{ github.event.inputs.appname }}' }}"
+                }
+              }'
           fi
