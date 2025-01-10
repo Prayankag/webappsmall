@@ -45,14 +45,14 @@ jobs:
           echo "Web App Deployment: ${{ '${{ github.event.inputs.webappdeployment }}' }}"
   check-and-trigger-terraform:
     runs-on: ubuntu-latest
-    needs: display-input-values
-    if: echo ${{ '${{ github.event.inputs.infraprovision }}' }}
+    needs: display-input-values    
     steps:
       - name: Check and Trigger Terraform Deployment
         id: terraform-deploy
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
-        run: |                    
+        run: |
+          if: ${{ '${{ github.event.inputs.infraprovision }}' }}                   
           echo "Triggering Terraform Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
@@ -71,15 +71,14 @@ jobs:
   
   check-and-trigger-dotnet:
     runs-on: ubuntu-latest
-    needs: check-and-trigger-terraform
-    if: echo ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}
+    needs: check-and-trigger-terraform    
     steps:
       - name: Check and Trigger Dotnet Deployment
-        id: dotnet-deploy      
-        
+        id: dotnet-deploy
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
-        run: |          
+        run: |
+          if: ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}         
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
@@ -96,14 +95,14 @@ jobs:
             }'
   check-and-trigger-dotnet-only:
     runs-on: ubuntu-latest
-    needs: display-input-values
-    if: echo !${{ '${{ github.event.inputs.infraprovision }}' }}
+    needs: display-input-values    
     steps:    
       - name: Check and Trigger Dotnet Deployment only
         id: dotnet-only         
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
-        run: |          
+        run: |
+          if: (!${{ '${{ github.event.inputs.infraprovision }}' }})         
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
