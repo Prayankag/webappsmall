@@ -49,10 +49,10 @@ jobs:
     steps:
       - name: Check and Trigger Terraform Deployment
         id: terraform-deploy
-        if: ${{ '${{ github.event.inputs.infraprovision }}' }}
         env:
-          GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
+            GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
+          if: echo ${{ '${{ github.event.inputs.infraprovision }}' }} == 'true'          
           echo "Triggering Terraform Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
@@ -74,12 +74,12 @@ jobs:
     needs: check-and-trigger-terraform
     steps:
       - name: Check and Trigger Dotnet Deployment
-        id: dotnet-deploy
-        if: ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}
+        id: dotnet-deploy      
         
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
+          if: echo ${{ '${{ github.event.inputs.infraprovision }}' }} == 'true' && ${{ '${{ github.event.inputs.webappdeployment }}' }} == 'true'
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
@@ -97,13 +97,14 @@ jobs:
   check-and-trigger-dotnet-only:
     runs-on: ubuntu-latest
     needs: display-input-values
-    if: ${{ '${{ github.event.inputs.webappdeployment }}' }} && (${{ '${{ github.event.inputs.infraprovision }}' }} == false)
+    
     steps:    
       - name: Check and Trigger Dotnet Deployment only
         id: dotnet-only         
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
+          if: echo ${{ '${{ github.event.inputs.webappdeployment }}' }} == 'true' && (${{ '${{ github.event.inputs.infraprovision }}' }} == 'false'
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
