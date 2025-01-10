@@ -50,7 +50,7 @@ jobs:
       - name: Check and Trigger Terraform Deployment
         id: terraform-deploy
         env:
-            GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
+          GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
           if: echo ${{ '${{ github.event.inputs.infraprovision }}' }}          
           echo "Triggering Terraform Deployment Workflow using REST API..."
@@ -104,7 +104,7 @@ jobs:
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
-          if: echo ( ! ${{ '${{ github.event.inputs.infraprovision }}' }} )
+          if: echo !${{ '${{ github.event.inputs.infraprovision }}' }}
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
