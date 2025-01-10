@@ -101,7 +101,7 @@ jobs:
       - name: Check and Trigger Dotnet Deployment only
         id: dotnet-only
         
-        if: ${{ '${{ github.event.inputs.webappdeployment }}' }} && (${{ '${{ github.event.inputs.infraprovision }}' }} != true)
+        if: ${{ '${{ github.event.inputs.webappdeployment }}' }} && (${{ '${{ github.event.inputs.infraprovision }}' }} == 'false')
          
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
