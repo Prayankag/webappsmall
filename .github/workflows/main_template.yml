@@ -85,7 +85,8 @@ jobs:
                   "environment": "${{ '${{ github.event.inputs.environment }}' }}",
                   "appname": "${{ '${{ github.event.inputs.appname }}' }}"
                 }
-              }'   
+              }'
+          fi   
   check-and-trigger-dotnet:
     runs-on: ubuntu-latest
     needs: check-and-trigger-terraform
