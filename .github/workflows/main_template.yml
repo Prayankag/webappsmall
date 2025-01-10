@@ -47,12 +47,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: display-input-values
     steps:
-      - name: Check and Trigger Terraform Deployment
+      - name: Check and Trigger Terraform Deployment else dotnet deploy
         id: terraform-deploy
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
-          if: echo ${{ '${{ github.event.inputs.infraprovision }}' }}                  
+          if echo ${{ '${{ github.event.inputs.infraprovision }}' }}                  
           echo "Triggering Terraform Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
@@ -93,7 +93,7 @@ jobs:
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
-          if: echo ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}                  
+          if echo ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}                  
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
