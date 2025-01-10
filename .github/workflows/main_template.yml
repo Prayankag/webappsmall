@@ -51,8 +51,10 @@ jobs:
         id: terraform-deploy
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
+          INFRA: ${{ '${{ github.event.inputs.infraprovision }}' }}
+          WEBAPP: ${{ '${{ github.event.inputs.webappdeployment }}' }}
         run: |
-          if echo ${{ '${{ github.event.inputs.infraprovision }}' }}                  
+          if [ "$INFRA" = "true" ]; then                  
             echo "Triggering Terraform Deployment Workflow using REST API..."
 
             # Trigger the workflow via GitHub API
@@ -92,8 +94,10 @@ jobs:
         id: dotnet-deploy
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
+          INFRA: ${{ '${{ github.event.inputs.infraprovision }}' }}
+          WEBAPP: ${{ '${{ github.event.inputs.webappdeployment }}' }}
         run: |
-          if echo ${{ '${{ github.event.inputs.infraprovision }}' }} && ${{ '${{ github.event.inputs.webappdeployment }}' }}                  
+          if [ "$INFRA" = "true" &&  "WEBAPP" = "true"]; then                  
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
