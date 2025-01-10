@@ -104,7 +104,7 @@ jobs:
         env:
           GIT_PAT: ${{ '${{ secrets.GIT_PAT }}' }}
         run: |
-          if: echo ${{ '${{ github.event.inputs.webappdeployment }}' }} && ${{ '${{ github.event.inputs.infraprovision }}' }} != true
+          if: echo ( ! ${{ '${{ github.event.inputs.infraprovision }}' }} )
           echo "Triggering dotnet Deployment Workflow using REST API..."
 
           # Trigger the workflow via GitHub API
