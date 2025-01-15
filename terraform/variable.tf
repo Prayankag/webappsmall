@@ -27,7 +27,7 @@ variable "appname" {
 variable "sku_size" {
   description = "The size of the App Service Plan (e.g., B1, S1, P1V2)"
   type        = string
-  default     = "B1"  # Example SKU size
+  default     = "F1"  # Example SKU size
 }
 
 variable "os_type" {
